@@ -11,13 +11,13 @@ import UIKit
 final class BookDetailView: UIView {
 
     //MARK: - Properties
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
 
-    private lazy var contentView: UIView = {
+    private let contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -43,7 +43,7 @@ final class BookDetailView: UIView {
         return imageView
     }()
 
-    private var imageViewHeightConstraint = NSLayoutConstraint()
+    private var imageViewHeightConstraint: NSLayoutConstraint?
 
     //MARK: - initializations
     override init(frame: CGRect) {
@@ -87,7 +87,7 @@ private extension BookDetailView {
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6)
         ])
         imageViewHeightConstraint = bookImageView.heightAnchor.constraint(equalToConstant: 10.0)
-        imageViewHeightConstraint.isActive = true
+        imageViewHeightConstraint?.isActive = true
     }
 }
 
@@ -104,7 +104,7 @@ extension BookDetailView {
             bookImageView.setImage(with: imageUrl) { [weak self] scaledImageHeight in
                 guard let self = self else { return }
 
-                self.imageViewHeightConstraint.constant = scaledImageHeight
+                self.imageViewHeightConstraint?.constant = scaledImageHeight
             }
             layoutIfNeeded()
         }

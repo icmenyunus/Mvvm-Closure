@@ -10,7 +10,7 @@ import UIKit
 final class BookView: UIView {
 
     //MARK: - Properties
-    private(set) lazy var tableView: UITableView = {
+    private(set) var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
         tableView.register(BookCell.self, forCellReuseIdentifier: "BookCell")

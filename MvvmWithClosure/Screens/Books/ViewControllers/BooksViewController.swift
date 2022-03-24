@@ -16,10 +16,8 @@ final class BooksViewController: UIViewController {
         return searchBar
     }()
 
-    private lazy var viewSource: BookView = {
+    private let viewSource: BookView = {
         let viewSource = BookView()
-        viewSource.tableView.delegate = self
-        viewSource.tableView.dataSource = self
         viewSource.translatesAutoresizingMaskIntoConstraints = false
         return viewSource
     }()
@@ -61,6 +59,8 @@ private extension BooksViewController {
         view.backgroundColor = .white
         navigationItem.titleView = searchBar
         view.addSubview(viewSource)
+        viewSource.tableView.delegate = self
+        viewSource.tableView.dataSource = self
 
         NSLayoutConstraint.activate([
             viewSource.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,

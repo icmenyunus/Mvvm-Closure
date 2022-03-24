@@ -46,6 +46,7 @@ private extension BookDetailViewController {
     func arrangeViews() {
         view.backgroundColor = .white
         view.addSubview(viewSource)
+
         NSLayoutConstraint.activate([
             viewSource.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             viewSource.trailingAnchor.constraint(equalTo: view.trailingAnchor),
