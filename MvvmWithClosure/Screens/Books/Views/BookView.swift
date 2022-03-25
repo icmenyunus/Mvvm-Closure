@@ -18,7 +18,7 @@ final class BookView: UIView {
         return tableView
     }()
 
-    //MARK: - initializations
+    //MARK: - initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
 

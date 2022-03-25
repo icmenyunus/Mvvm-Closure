@@ -45,7 +45,7 @@ final class BookDetailView: UIView {
 
     private var imageViewHeightConstraint: NSLayoutConstraint?
 
-    //MARK: - initializations
+    //MARK: - initialization
     override init(frame: CGRect) {
         super.init(frame: frame)
 

@@ -9,11 +9,8 @@ import UIKit
 
 final class BookDetailViewController: UIViewController {
 
-    private let viewSource: BookDetailView = {
-        let view = BookDetailView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    // MARK: - Properties
+    private let viewSource = BookDetailView()
 
     private let bookDetailViewModel = BookDetailViewModel(apiService: BaseApiClient())
 
@@ -34,7 +31,12 @@ final class BookDetailViewController: UIViewController {
 
     // MARK: - life cycle
     override func loadView() {
-        super.loadView()
+
+        setupView()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
         arrangeViews()
     }
@@ -43,17 +45,12 @@ final class BookDetailViewController: UIViewController {
 // MARK: - Arrange Views
 private extension BookDetailViewController {
 
+    func setupView() {
+        view = viewSource
+    }
+
     func arrangeViews() {
         view.backgroundColor = .white
-        view.addSubview(viewSource)
-
-        NSLayoutConstraint.activate([
-            viewSource.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewSource.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            viewSource.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                            constant: 10.0),
-            viewSource.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
 
         // MARK: - for remove back button title
         navigationController?.navigationBar.topItem?.title = ""

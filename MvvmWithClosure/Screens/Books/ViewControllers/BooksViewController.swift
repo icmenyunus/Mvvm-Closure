@@ -7,42 +7,40 @@
 
 import UIKit
 
-final class BooksViewController: UIViewController {
+final class BooksViewController: UIViewController, BooksNavigator {
 
-    private lazy var searchBar: UISearchBar = {
+    // MARK: - Properties
+    private var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Kitap, film, dizi, döküman ara..."
-        searchBar.delegate = self
         return searchBar
     }()
 
-    private let viewSource: BookView = {
-        let viewSource = BookView()
-        viewSource.translatesAutoresizingMaskIntoConstraints = false
-        return viewSource
-    }()
+    private let viewSource = BookView()
 
     private let booksViewModel: BooksViewModel
 
+    // MARK: - initialization
     init(with bookViewModel: BooksViewModel) {
         booksViewModel = bookViewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Life cycle
     override func loadView() {
-        super.loadView()
 
-        arrangeViews()
-        observeUIElements()
+        setupView()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        arrangeViews()
+        observeUIElements()
 
         booksViewModel.getBooks(with: "Marvel") { [unowned self] _ in
             DispatchQueue.main.async {
@@ -55,20 +53,17 @@ final class BooksViewController: UIViewController {
 // MARK: - Arrange Views
 private extension BooksViewController {
 
+    func setupView() {
+        view = viewSource
+    }
+
     func arrangeViews() {
         view.backgroundColor = .white
         navigationItem.titleView = searchBar
-        view.addSubview(viewSource)
+        searchBar.delegate = self
+
         viewSource.tableView.delegate = self
         viewSource.tableView.dataSource = self
-
-        NSLayoutConstraint.activate([
-            viewSource.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                            constant: 10.0),
-            viewSource.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            viewSource.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            viewSource.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
     }
 }
 
@@ -158,7 +153,6 @@ extension BooksViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let bookId = booksViewModel.didSelectRow(indexPath).id else { return }
-        let viewController = BookDetailViewController(with: bookId)
-        navigationController?.pushViewController(viewController, animated: true)
+        navigateToBookDetail(with: bookId)
     }
 }
